@@ -2,6 +2,7 @@ package com.ian.mongospring.services;
 
 import com.ian.mongospring.domain.User;
 import com.ian.mongospring.repository.UserRepository;
+import com.ian.mongospring.services.exception.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,4 +17,10 @@ public class UserService {
         public List<User> findAll(){
             return repo.findAll();
         }
+
+    public User findById(String id) {
+        return repo.findById(id)
+                .orElseThrow(() -> new ObjectNotFoundException("Objeto não encontrado"));
+    }
+
 }
