@@ -5,6 +5,7 @@ import com.ian.mongospring.dto.UserDTO;
 import com.ian.mongospring.repository.UserRepository;
 import com.ian.mongospring.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.repository.Update;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -42,6 +43,14 @@ public class UserResources {
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
 
         return ResponseEntity.created(uri).build();
+    }
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<Void> update(@RequestBody UserDTO objDto, @PathVariable String id){
+        User obj = service.fromDTO(objDto);
+        obj.setId(id);
+        obj = service.update(obj);
+        return ResponseEntity.noContent().build();
+
     }
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Void> delete(@PathVariable String id){
