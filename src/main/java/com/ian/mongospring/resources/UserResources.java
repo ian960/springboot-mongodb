@@ -1,5 +1,6 @@
 package com.ian.mongospring.resources;
 
+import com.ian.mongospring.domain.Post;
 import com.ian.mongospring.domain.User;
 import com.ian.mongospring.dto.UserDTO;
 import com.ian.mongospring.repository.UserRepository;
@@ -56,5 +57,10 @@ public class UserResources {
     public ResponseEntity<Void> delete(@PathVariable String id){
         service.delete(id);
         return ResponseEntity.noContent().build();
+    }
+    @GetMapping(value = "/{id}/posts")
+    public ResponseEntity<List<Post>> findPosts(@PathVariable String id){
+        User obj = service.findById(id);
+        return ResponseEntity.ok().body(obj.getPosts());
     }
 }
